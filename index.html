@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skyline Global | Financial Logistics & Trade Finance</title>
     
-    <!-- Professional Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
 
-        /* HERO CONTAINER */
+        /* THE VIEWPORT CONTAINER */
         .hero {
             position: relative;
             height: 100vh;
@@ -22,22 +20,23 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            overflow: hidden; /* Important for cropping the video */
+            overflow: hidden;
         }
 
-        /* THE VIDEO CROPPER - This hides the YouTube Title bar */
-        .video-background {
+        /* 1. THE VIDEO BOX (CROPS THE ZOOMED VIDEO) */
+        #video-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; 
-            overflow: hidden; /* This hides the zoomed-in parts of the video */
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        .video-background iframe {
+        /* 2. THE PLAYER (ZOOMED TO HIDE TITLES/UPLOADER) */
+        #player {
             width: 100vw;
             height: 56.25vw; /* 16:9 Aspect Ratio */
             min-height: 100vh;
@@ -45,19 +44,19 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            /* SCALE(1.4) zooms in to push the title and uploader name off-screen */
-            transform: translate(-50%, -50%) scale(1.4); 
+            /* Scale 1.5x pushes the YouTube title bar off the top of the screen */
+            transform: translate(-50%, -50%) scale(1.5); 
         }
 
-        /* NAVY TINT OVERLAY */
+        /* 3. NAVY TINT OVERLAY */
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 10, 25, 0.7); 
+            background: rgba(0, 10, 25, 0.6); 
             z-index: 1;
         }
 
-        /* HEADER */
+        /* HEADER & LOGO */
         header {
             position: absolute;
             top: 0;
@@ -69,23 +68,8 @@
             z-index: 100;
         }
 
-        .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .status-tag {
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #ff8c00;
-            border: 1px solid #ff8c00;
-            padding: 5px 15px;
-            text-transform: uppercase;
-        }
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 4px; color: #fff; text-decoration: none; text-transform: uppercase; }
+        .status-tag { font-size: 0.7rem; letter-spacing: 2px; color: #ff8c00; border: 1px solid #ff8c00; padding: 5px 15px; text-transform: uppercase; }
 
         /* MAIN CONTENT */
         .content {
@@ -96,23 +80,10 @@
             max-width: 900px;
         }
 
-        .content h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 900;
-            letter-spacing: 12px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
+        .content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 5px; }
+        .content h2 { font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: 6px; color: #3b82f6; text-transform: uppercase; margin-bottom: 40px; }
 
-        .content h2 {
-            font-size: clamp(0.9rem, 3vw, 1.2rem);
-            letter-spacing: 6px;
-            color: #3b82f6;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        /* TRACKING BOX */
+        /* TRACKING BOX UI */
         .tracking-box {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
@@ -125,37 +96,12 @@
             max-width: 600px;
         }
 
-        .input-group {
-            display: flex;
-            width: 100%;
-        }
+        .input-group { display: flex; width: 100%; }
+        .tracking-box input { flex: 2; padding: 18px; border: none; border-radius: 5px 0 0 5px; outline: none; font-size: 1rem; }
+        .tracking-box button { flex: 1; padding: 18px; background-color: #ff8c00; color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .tracking-box button:hover { background-color: #e67e00; }
 
-        .tracking-box input {
-            flex: 2;
-            padding: 18px;
-            border: none;
-            border-radius: 5px 0 0 5px;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .tracking-box button {
-            flex: 1;
-            padding: 18px;
-            background-color: #ff8c00;
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .tracking-box button:hover {
-            background-color: #e67e00;
-        }
-
-        /* PARTNER BAR */
+        /* FOOTER TRUST BAR */
         .trust-bar {
             position: absolute;
             bottom: 0;
@@ -168,13 +114,7 @@
             z-index: 20;
         }
 
-        .trust-bar span {
-            color: #1a365d;
-            font-weight: 900;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            opacity: 0.7;
-        }
+        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.7; }
 
         @media (max-width: 768px) {
             .input-group { flex-direction: column; }
@@ -191,13 +131,9 @@
     </header>
 
     <section class="hero">
-        <!-- CROPPED VIDEO BACKGROUND -->
-        <div class="video-background">
-            <iframe 
-                src="https://www.youtube.com/embed/2KxCjRr-wlM?autoplay=1&mute=1&loop=1&playlist=2KxCjRr-wlM&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media">
-            </iframe>
+        <!-- VIDEO API TARGET -->
+        <div id="video-container">
+            <div id="player"></div>
         </div>
 
         <div class="overlay"></div>
@@ -222,7 +158,55 @@
         <span>PARTNER: PORT OF DUBAI</span>
     </div>
 
+    <!-- 4. YOUTUBE API LOADER -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
+        let player;
+
+        // This function is triggered by the YouTube API script above
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '2KxCjRr-wlM', // <--- YOUR VIDEO LINK ID IS HERE
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'modestbranding': 1,
+                    'loop': 1,
+                    'mute': 1,
+                    'playlist': '2KxCjRr-wlM',
+                    'iv_load_policy': 3,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // SEAMLESS LOOP: Detects when the video is almost over and jumps to start
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                let duration = player.getDuration();
+                // We check every 500ms if we are 1 second away from the end
+                setInterval(function() {
+                    let currentTime = player.getCurrentTime();
+                    if (currentTime > (duration - 1)) {
+                        player.seekTo(0); // Jump to start before the black screen appears
+                    }
+                }, 500);
+            }
+            if (event.data == YT.PlayerState.ENDED) {
+                player.playVideo();
+            }
+        }
+
         function checkStatus() {
             const val = document.getElementById('manifestID').value;
             if (val === "") {
