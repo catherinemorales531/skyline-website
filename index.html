@@ -3,73 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Global | Financial Logistics & Trade Finance</title>
+    <title>Skyline Global | World Operations Command</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --logistics-orange: #ff8c00;
+            --dark-bg: #000a19;
+            --ticker-speed: 150s; /* Change this to adjust speed */
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
 
-        /* 1. NEWS TICKER TOP BAR */
-        .top-ticker-bar {
+        /* 1. BROADCAST TICKER BAR */
+        .broadcast-bar {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 75px; 
+            height: 90px;
             background: rgba(0, 10, 25, 0.95);
-            border-bottom: 2px solid #3b82f6;
+            border-bottom: 2px solid var(--primary-blue);
             z-index: 1000;
             display: flex;
             align-items: center;
             overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
 
-        .ticker-wrapper {
+        .ticker-track {
+            display: flex;
             white-space: nowrap;
-            display: inline-block;
-            animation: tickerMove 120s linear infinite; /* Adjusted for flag width */
+            will-change: transform;
+            animation: scroll var(--ticker-speed) linear infinite;
         }
 
         .ticker-item {
-            display: inline-block;
-            text-align: left;
-            margin-right: 150px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
-        .ticker-title {
-            font-size: 1rem;
+        .flag-box {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+        }
+
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .country-name {
+            font-size: 0.9rem;
             font-weight: 900;
             color: #fff;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 5px;
+            letter-spacing: 1px;
         }
 
-        .ticker-flags {
-            font-size: 1.4rem; /* Larger flags for better visibility */
-            letter-spacing: 12px;
+        .weather-info {
+            font-size: 0.7rem;
+            font-family: 'Orbitron', sans-serif; /* Tech/News Look */
+            color: var(--primary-blue);
             display: flex;
             align-items: center;
+            gap: 5px;
         }
 
-        .skyline-tag {
-            color: #3b82f6;
-            font-size: 0.8rem;
-            font-weight: 800;
-            margin-left: 20px;
-            border-left: 2px solid #ff8c00;
-            padding-left: 15px;
-        }
+        .temp { color: var(--logistics-orange); font-weight: bold; }
 
-        @keyframes tickerMove {
+        @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            100% { transform: translateX(-50%); } /* Halfway because we duplicate the list */
         }
 
-        /* 2. VIDEO & HERO LAYOUT */
+        /* 2. VIDEO HERO SECTION */
         .hero {
             position: relative;
             height: 100vh;
@@ -77,131 +92,174 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
             overflow: hidden;
         }
 
         #video-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; overflow: hidden;
+            z-index: 0; pointer-events: none;
         }
 
         #player {
             width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
             position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.5); 
+            transform: translate(-50%, -50%) scale(1.5); /* Zoom to hide branding */
         }
 
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 10, 25, 0.6); z-index: 1;
+            background: linear-gradient(to bottom, rgba(0,10,25,0.8), rgba(0,0,0,0.5));
+            z-index: 1;
         }
 
+        /* 3. NAVIGATION */
         header {
             position: absolute;
-            top: 75px; 
+            top: 110px; /* Offset for ticker */
             width: 100%;
-            padding: 20px 50px;
+            padding: 0 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 4px; color: #fff; text-decoration: none; text-transform: uppercase; }
-        .status-tag { font-size: 0.6rem; letter-spacing: 2px; color: #ff8c00; border: 1px solid #ff8c00; padding: 4px 12px; text-transform: uppercase; }
+        .logo { font-weight: 900; font-size: 1.8rem; letter-spacing: 5px; color: #fff; text-decoration: none; }
+        .live-tag { color: var(--logistics-orange); font-size: 0.7rem; font-weight: bold; letter-spacing: 2px; }
 
-        .content { position: relative; z-index: 10; padding: 20px; width: 100%; max-width: 900px; }
-        .content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 5px; }
-        .content h2 { font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: 6px; color: #3b82f6; text-transform: uppercase; margin-bottom: 40px; }
-
+        /* 4. CONTENT & TRACKING */
+        .content { position: relative; z-index: 10; text-align: center; width: 100%; max-width: 800px; padding-top: 50px; }
+        .content h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; letter-spacing: 15px; margin-bottom: 10px; }
+        
         .tracking-box {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: inline-block; width: 100%; max-width: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 30px;
         }
 
-        .input-group { display: flex; width: 100%; }
-        .tracking-box input { flex: 2; padding: 18px; border: none; border-radius: 5px 0 0 5px; outline: none; font-size: 1rem; }
-        .tracking-box button { flex: 1; padding: 18px; background-color: #ff8c00; color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .input-group { display: flex; margin-top: 15px; }
+        .tracking-box input { flex: 2; padding: 20px; border: none; border-radius: 10px 0 0 10px; font-size: 1rem; outline: none; }
+        .tracking-box button { flex: 1; background: var(--logistics-orange); border: none; color: white; font-weight: 900; border-radius: 0 10px 10px 0; cursor: pointer; transition: 0.3s; }
+        .tracking-box button:hover { background: #e67e00; letter-spacing: 2px; }
 
+        /* 5. PARTNER BAR */
         .trust-bar {
             position: absolute; bottom: 0; width: 100%; background: #fff;
-            padding: 20px 0; display: flex; justify-content: space-around; align-items: center; z-index: 20;
+            padding: 15px 0; display: flex; justify-content: space-around; z-index: 20;
         }
-        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.7; }
+        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.8; }
 
         @media (max-width: 768px) {
-            header { top: 75px; padding: 15px; }
             .trust-bar { display: none; }
+            .broadcast-bar { height: 70px; }
+            .flag-box { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP TICKER BAR WITH FLAGS ONLY -->
-    <div class="top-ticker-bar">
-        <div class="ticker-wrapper">
-            <div class="ticker-item">
-                <span class="ticker-title">Global Transit Hubs</span>
-                <span class="ticker-flags">
-                    🇺🇸 🇬🇧 🇨🇦 🇩🇪 🇫🇷 🇯🇵 🇨🇳 🇦🇺 🇧🇷 🇮🇳 🇦🇪 🇸🇬 🇨H 🇰🇷 🇮🇹 🇪🇸 🇳🇱 🇸🇪 🇳🇴 🇩🇰 🇲🇽 🇦🇷 🇨🇱 🇹🇷 🇸🇦 🇶🇦 🇿🇦 🇪🇬 🇮🇱 🇹🇭 🇻🇳 🇲🇾 🇮🇩 🇵🇭 🇬🇷 🇵🇹 🇦🇹 🇧🇪 🇫🇮 🇵🇱 🇨🇿 🇭🇺 🇷🇴 🇺🇦 🇲🇦 🇰🇪 🇬🇭 🇪🇹 🇨🇴 🇵🇪 🇺🇾 🇳🇿 🇮🇪 🇮🇸 🇱🇺 🇲🇨 🇵🇦 🇨🇷 🇲🇻 🇲🇺 🇸🇨 🇯🇲 🇧🇸 🇧🇧 🇰🇼 🇴🇲 🇧🇭 🇯🇴 🇰🇿 🇺🇿 🇵🇰 🇧🇩 🇸🇷 🇳🇵 🇲🇲 🇰🇭 🇱🇦 🇲🇳 🇨🇾 🇲🇹
-                    <span class="skyline-tag">SKYLINE GLOBAL NETWORK | 80+ PORTS</span>
-                </span>
-            </div>
-            <!-- DUPLICATE FOR SEAMLESS LOOP -->
-            <div class="ticker-item">
-                <span class="ticker-title">Global Transit Hubs</span>
-                <span class="ticker-flags">
-                    🇺🇸 🇬🇧 🇨🇦 🇩🇪 🇫🇷 🇯🇵 🇨🇳 🇦🇺 🇧🇷 🇮🇳 🇦🇪 🇸🇬 🇨H 🇰🇷 🇮🇹 🇪🇸 🇳🇱 🇸🇪 🇳🇴 🇩🇰 🇲🇽 🇦🇷 🇨🇱 🇹🇷 🇸🇦 🇶🇦 🇿🇦 🇪🇬 🇮🇱 🇹🇭 🇻🇳 🇲🇾 🇮🇩 🇵🇭 🇬🇷 🇵🇹 🇦🇹 🇧🇪 🇫🇮 🇵🇱 🇨🇿 🇭🇺 🇷🇴 🇺🇦 🇲🇦 🇰🇪 🇬🇭 🇪🇹 🇨🇴 🇵🇪 🇺🇾 🇳🇿 🇮🇪 🇮🇸 🇱🇺 🇲🇨 🇵🇦 🇨🇷 🇲🇻 🇲🇺 🇸🇨 🇯🇲 🇧🇸 🇧🇧 🇰🇼 🇴🇲 🇧🇭 🇯🇴 🇰🇿 🇺🇿 🇵🇰 🇧🇩 🇸🇷 🇳🇵 🇲🇲 🇰🇭 🇱🇦 🇲🇳 🇨🇾 🇲🇹
-                    <span class="skyline-tag">SKYLINE GLOBAL NETWORK | 80+ PORTS</span>
-                </span>
-            </div>
+    <!-- 1. DYNAMIC TICKER BAR -->
+    <div class="broadcast-bar">
+        <div class="ticker-track" id="tickerTrack">
+            <!-- JavaScript will populate 80 countries here -->
         </div>
     </div>
 
+    <!-- 2. LOGO HEADER -->
     <header>
         <a href="#" class="logo">SKYLINE GLOBAL</a>
-        <div class="status-tag">Status: Operational</div>
+        <div class="live-tag">● SYSTEM LIVE: GLOBAL OPERATIONS</div>
     </header>
 
+    <!-- 3. HERO SECTION -->
     <section class="hero">
         <div id="video-container">
             <div id="player"></div>
         </div>
         <div class="overlay"></div>
+        
         <div class="content">
             <h1>SKYLINE GLOBAL</h1>
-            <h2>Global Financial Logistics & Settlement</h2>
             <div class="tracking-box">
+                <p style="letter-spacing: 3px; font-size: 0.8rem; color: #aaa;">INTERNATIONAL CARGO & SETTLEMENT PORTAL</p>
                 <div class="input-group">
-                    <input type="text" id="manifestID" placeholder="Enter Tracking ID">
-                    <button onclick="checkStatus()">TRACK</button>
+                    <input type="text" id="trackInput" placeholder="Enter Manifest ID...">
+                    <button onclick="handleTrack()">TRACK</button>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 4. PARTNER BAR -->
     <div class="trust-bar">
-        <span>PARTNER: MAERSK</span>
-        <span>PARTNER: DHL GLOBAL</span>
-        <span>PARTNER: FEDEX TRADE</span>
-        <span>PARTNER: PORT OF DUBAI</span>
+        <span>MAERSK LINE</span>
+        <span>DHL GLOBAL</span>
+        <span>FEDEX TRADE</span>
+        <span>PORT OF DUBAI</span>
+        <span>SINGAPORE CARGO</span>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // 80 POPULAR COUNTRIES (Excluding Nigeria)
+        const countries = [
+            {n:"USA", f:"🇺🇸"}, {n:"UK", f:"🇬🇧"}, {n:"Canada", f:"🇨🇦"}, {n:"Germany", f:"🇩🇪"}, {n:"France", f:"🇫🇷"},
+            {n:"Japan", f:"🇯🇵"}, {n:"China", f:"🇨🇳"}, {n:"Australia", f:"🇦🇺"}, {n:"Brazil", f:"🇧🇷"}, {n:"India", f:"🇮🇳"},
+            {n:"UAE", f:"🇦🇪"}, {n:"Singapore", f:"🇸🇬"}, {n:"Switzerland", f:"🇨H"}, {n:"South Korea", f:"🇰🇷"}, {n:"Italy", f:"🇮🇹"},
+            {n:"Spain", f:"🇪🇸"}, {n:"Netherlands", f:"🇳🇱"}, {n:"Sweden", f:"🇳🇴"}, {n:"Norway", f:"🇳🇴"}, {n:"Denmark", f:"🇩🇰"},
+            {n:"Mexico", f:"🇲🇽"}, {n:"Argentina", f:"🇦🇷"}, {n:"Chile", f:"🇨🇱"}, {n:"Turkey", f:"🇹🇷"}, {n:"Saudi Arabia", f:"🇸🇦"},
+            {n:"Qatar", f:"🇶🇦"}, {n:"South Africa", f:"🇿🇦"}, {n:"Egypt", f:"🇪🇬"}, {n:"Israel", f:"🇮🇱"}, {n:"Thailand", f:"🇹🇭"},
+            {n:"Vietnam", f:"🇻🇳"}, {n:"Malaysia", f:"🇲🇾"}, {n:"Indonesia", f:"🇮🇩"}, {n:"Philippines", f:"🇵🇭"}, {n:"Greece", f:"🇬🇷"},
+            {n:"Portugal", f:"🇵🇹"}, {n:"Austria", f:"🇦🇹"}, {n:"Belgium", f:"🇧🇪"}, {n:"Finland", f:"🇫🇮"}, {n:"Poland", f:"🇵🇱"},
+            {n:"Ireland", f:"🇮🇪"}, {n:"New Zealand", f:"🇳🇿"}, {n:"Russia", f:"🇷🇺"}, {n:"Turkey", f:"🇹🇷"}, {n:"Sweden", f:"🇸🇪"},
+            {n:"Norway", f:"🇳🇴"}, {n:"Denmark", f:"🇩🇰"}, {n:"Belgium", f:"🇧🇪"}, {n:"Austria", f:"🇦🇹"}, {n:"Portugal", f:"🇵🇹"},
+            {n:"Greece", f:"🇬🇷"}, {n:"Israel", f:"🇮🇱"}, {n:"Egypt", f:"🇪🇬"}, {n:"South Africa", f:"🇿🇦"}, {n:"Morocco", f:"🇲🇦"},
+            {n:"Kenya", f:"🇰🇪"}, {n:"Ghana", f:"🇬🇭"}, {n:"Ethiopia", f:"🇪🇹"}, {n:"Tanzania", f:"🇹🇿"}, {n:"Uganda", f:"🇺🇬"},
+            {n:"Algeria", f:"🇩🇿"}, {n:"Angola", f:"🇦🇴"}, {n:"Senegal", f:"🇸🇳"}, {n:"Ivory Coast", f:"🇨🇮"}, {n:"Cameroon", f:"🇨🇲"},
+            {n:"Zambia", f:"🇿🇲"}, {n:"Zimbabwe", f:"🇿🇼"}, {n:"Botswana", f:"🇧🇼"}, {n:"Namibia", f:"🇳🇦"}, {n:"Mauritius", f:"🇲🇺"},
+            {n:"Seychelles", f:"🇸🇨"}, {n:"Madagascar", f:"🇲🇬"}, {n:"Rwanda", f:"🇷🇼"}, {n:"Malawi", f:"🇲🇼"}, {n:"Mozambique", f:"🇲🇿"}
+        ];
+
+        const conditions = ["Sunny", "Cloudy", "Rainy", "Clear", "Overcast", "Windy"];
+
+        function initTicker() {
+            const track = document.getElementById('tickerTrack');
+            // Duplicate the list to create the infinite loop effect
+            const list = [...countries, ...countries]; 
+            
+            list.forEach(c => {
+                const temp = Math.floor(Math.random() * (35 - 10) + 10);
+                const cond = conditions[Math.floor(Math.random() * conditions.length)];
+                
+                const item = document.createElement('div');
+                item.className = 'ticker-item';
+                item.innerHTML = `
+                    <div class="flag-box">${c.f}</div>
+                    <div class="info-box">
+                        <span class="country-name">${c.n}</span>
+                        <div class="weather-info">
+                            <span>☁ ${cond}</span>
+                            <span class="temp">${temp}°C</span>
+                        </div>
+                    </div>
+                `;
+                track.appendChild(item);
+            });
+        }
+
+        // YOUTUBE PLAYER CONFIG
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 videoId: '2KxCjRr-wlM',
                 playerVars: { 
-                    'autoplay': 1, 'controls': 0, 'showinfo': 0, 
-                    'modestbranding': 1, 'loop': 1, 'mute': 1, 
-                    'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 
+                    'autoplay': 1, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 
+                    'loop': 1, 'mute': 1, 'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 
                 },
                 events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
             });
@@ -215,10 +273,13 @@
                 }, 500);
             }
         }
-        function checkStatus() {
-            const val = document.getElementById('manifestID').value;
-            if (val === "") { alert("Please enter a Tracking ID."); } else { alert("Searching Skyline Database for: " + val); }
+
+        function handleTrack() {
+            const id = document.getElementById('trackInput').value;
+            alert(id ? "Scanning Satellite Tracking for: " + id : "Enter a valid ID");
         }
+
+        window.onload = initTicker;
     </script>
 </body>
 </html>
