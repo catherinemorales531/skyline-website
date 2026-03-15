@@ -17,9 +17,9 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 70px; /* Tall enough for two lines */
-            background: rgba(0, 10, 25, 0.9); /* Blends with background */
-            border-bottom: 1px solid rgba(59, 130, 246, 0.3); /* Subtle blue glow */
+            height: 75px; 
+            background: rgba(0, 10, 25, 0.95);
+            border-bottom: 2px solid #3b82f6;
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -29,38 +29,39 @@
         .ticker-wrapper {
             white-space: nowrap;
             display: inline-block;
-            animation: tickerMove 25s linear infinite; /* Adjust speed here */
-            padding-left: 100%;
+            animation: tickerMove 120s linear infinite; /* Adjusted for flag width */
         }
 
         .ticker-item {
             display: inline-block;
             text-align: left;
-            margin-right: 100px; /* Space between repeating names */
+            margin-right: 150px;
         }
 
-        /* The Person's Name */
-        .ticker-name {
-            font-size: 1.1rem;
+        .ticker-title {
+            font-size: 1rem;
             font-weight: 900;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 2px;
             display: block;
+            margin-bottom: 5px;
         }
 
-        /* Skyline Global & Worldwide Shipping */
-        .ticker-subtext {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #3b82f6; /* Global Blue */
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .ticker-flags {
+            font-size: 1.4rem; /* Larger flags for better visibility */
+            letter-spacing: 12px;
+            display: flex;
+            align-items: center;
         }
 
-        .ticker-country {
-            color: #ff8c00; /* Logistics Orange */
-            margin-left: 10px;
+        .skyline-tag {
+            color: #3b82f6;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-left: 20px;
+            border-left: 2px solid #ff8c00;
+            padding-left: 15px;
         }
 
         @keyframes tickerMove {
@@ -68,7 +69,7 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* 2. MAIN LAYOUT ADJUSTMENTS */
+        /* 2. VIDEO & HERO LAYOUT */
         .hero {
             position: relative;
             height: 100vh;
@@ -98,10 +99,9 @@
             background: rgba(0, 10, 25, 0.6); z-index: 1;
         }
 
-        /* Pushed Header down by 70px so it doesn't hit the Ticker */
         header {
             position: absolute;
-            top: 70px; 
+            top: 75px; 
             width: 100%;
             padding: 20px 50px;
             display: flex;
@@ -135,28 +135,30 @@
         .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.7; }
 
         @media (max-width: 768px) {
-            header { top: 70px; padding: 15px; }
+            header { top: 75px; padding: 15px; }
             .trust-bar { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- LIVE OPERATION TICKER -->
+    <!-- TOP TICKER BAR WITH FLAGS ONLY -->
     <div class="top-ticker-bar">
         <div class="ticker-wrapper">
-            <!-- REPEAT THIS ITEM 3 TIMES SO THERE IS NO GAP IN THE LOOP -->
             <div class="ticker-item">
-                <span class="ticker-name">YOUR NAME</span>
-                <span class="ticker-subtext">Skyline Global | Worldwide Shipping Hubs: <span class="ticker-country">USA • UK • CHINA • DUBAI • NIGERIA • BRAZIL • SINGAPORE</span></span>
+                <span class="ticker-title">Global Transit Hubs</span>
+                <span class="ticker-flags">
+                    🇺🇸 🇬🇧 🇨🇦 🇩🇪 🇫🇷 🇯🇵 🇨🇳 🇦🇺 🇧🇷 🇮🇳 🇦🇪 🇸🇬 🇨H 🇰🇷 🇮🇹 🇪🇸 🇳🇱 🇸🇪 🇳🇴 🇩🇰 🇲🇽 🇦🇷 🇨🇱 🇹🇷 🇸🇦 🇶🇦 🇿🇦 🇪🇬 🇮🇱 🇹🇭 🇻🇳 🇲🇾 🇮🇩 🇵🇭 🇬🇷 🇵🇹 🇦🇹 🇧🇪 🇫🇮 🇵🇱 🇨🇿 🇭🇺 🇷🇴 🇺🇦 🇲🇦 🇰🇪 🇬🇭 🇪🇹 🇨🇴 🇵🇪 🇺🇾 🇳🇿 🇮🇪 🇮🇸 🇱🇺 🇲🇨 🇵🇦 🇨🇷 🇲🇻 🇲🇺 🇸🇨 🇯🇲 🇧🇸 🇧🇧 🇰🇼 🇴🇲 🇧🇭 🇯🇴 🇰🇿 🇺🇿 🇵🇰 🇧🇩 🇸🇷 🇳🇵 🇲🇲 🇰🇭 🇱🇦 🇲🇳 🇨🇾 🇲🇹
+                    <span class="skyline-tag">SKYLINE GLOBAL NETWORK | 80+ PORTS</span>
+                </span>
             </div>
+            <!-- DUPLICATE FOR SEAMLESS LOOP -->
             <div class="ticker-item">
-                <span class="ticker-name">YOUR NAME</span>
-                <span class="ticker-subtext">Skyline Global | Worldwide Shipping Hubs: <span class="ticker-country">USA • UK • CHINA • DUBAI • NIGERIA • BRAZIL • SINGAPORE</span></span>
-            </div>
-            <div class="ticker-item">
-                <span class="ticker-name">YOUR NAME</span>
-                <span class="ticker-subtext">Skyline Global | Worldwide Shipping Hubs: <span class="ticker-country">USA • UK • CHINA • DUBAI • NIGERIA • BRAZIL • SINGAPORE</span></span>
+                <span class="ticker-title">Global Transit Hubs</span>
+                <span class="ticker-flags">
+                    🇺🇸 🇬🇧 🇨🇦 🇩🇪 🇫🇷 🇯🇵 🇨🇳 🇦🇺 🇧🇷 🇮🇳 🇦🇪 🇸🇬 🇨H 🇰🇷 🇮🇹 🇪🇸 🇳🇱 🇸🇪 🇳🇴 🇩🇰 🇲🇽 🇦🇷 🇨🇱 🇹🇷 🇸🇦 🇶🇦 🇿🇦 🇪🇬 🇮🇱 🇹🇭 🇻🇳 🇲🇾 🇮🇩 🇵🇭 🇬🇷 🇵🇹 🇦🇹 🇧🇪 🇫🇮 🇵🇱 🇨🇿 🇭🇺 🇷🇴 🇺🇦 🇲🇦 🇰🇪 🇬🇭 🇪🇹 🇨🇴 🇵🇪 🇺🇾 🇳🇿 🇮🇪 🇮🇸 🇱🇺 🇲🇨 🇵🇦 🇨🇷 🇲🇻 🇲🇺 🇸🇨 🇯🇲 🇧🇸 🇧🇧 🇰🇼 🇴🇲 🇧🇭 🇯🇴 🇰🇿 🇺🇿 🇵🇰 🇧🇩 🇸🇷 🇳🇵 🇲🇲 🇰🇭 🇱🇦 🇲🇳 🇨🇾 🇲🇹
+                    <span class="skyline-tag">SKYLINE GLOBAL NETWORK | 80+ PORTS</span>
+                </span>
             </div>
         </div>
     </div>
@@ -196,7 +198,11 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 videoId: '2KxCjRr-wlM',
-                playerVars: { 'autoplay': 1, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 'loop': 1, 'mute': 1, 'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 },
+                playerVars: { 
+                    'autoplay': 1, 'controls': 0, 'showinfo': 0, 
+                    'modestbranding': 1, 'loop': 1, 'mute': 1, 
+                    'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 
+                },
                 events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
             });
         }
