@@ -3,256 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Global | World Operations Command</title>
+    <title>Skyline Global | Strategic Financial Logistics & Global Asset Management</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Professional Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-blue: #3b82f6;
-            --logistics-orange: #ff8c00;
-            --dark-bg: #000a19;
-            --ticker-speed: 150s; /* Change this to adjust speed */
+            --navy: #0a1523;
+            --blue: #1d4ed8;
+            --cyan: #0ea5e9;
+            --orange: #f59e0b;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(14, 165, 233, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
+        body, html { background-color: var(--navy); color: var(--white); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* 1. BROADCAST TICKER BAR */
+        /* --- GLOBAL OPERATIONS TICKER --- */
         .broadcast-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 90px;
-            background: rgba(0, 10, 25, 0.95);
-            border-bottom: 2px solid var(--primary-blue);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            position: fixed; top: 0; left: 0; width: 100%; height: 65px;
+            background: rgba(10, 21, 35, 0.98); border-bottom: 2px solid var(--cyan);
+            z-index: 2000; display: flex; align-items: center; overflow: hidden;
         }
+        .ticker-track { display: flex; white-space: nowrap; animation: scroll 150s linear infinite; }
+        .ticker-item { display: flex; align-items: center; padding: 0 35px; border-right: 1px solid var(--border); }
+        .flag { font-size: 1.6rem; margin-right: 12px; }
+        .t-name { font-size: 0.75rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; }
+        .t-weather { font-family: 'Orbitron'; font-size: 0.65rem; color: var(--cyan); margin-top: 2px; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .ticker-track {
-            display: flex;
-            white-space: nowrap;
-            will-change: transform;
-            animation: scroll var(--ticker-speed) linear infinite;
+        /* --- CORPORATE NAVIGATION --- */
+        nav {
+            position: fixed; top: 65px; width: 100%; height: 85px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 60px; background: rgba(10, 21, 35, 0.85); backdrop-filter: blur(15px);
+            z-index: 1500; border-bottom: 1px solid var(--border);
         }
+        .nav-logo-img { height: 60px; width: auto; transition: transform 0.3s ease; cursor: pointer; }
+        .nav-logo-img:hover { transform: scale(1.05); }
 
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
+        .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--white); text-decoration: none; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--cyan); }
+        .btn-portal { background: var(--orange); padding: 12px 28px; border-radius: 4px; color: white !important; letter-spacing: 1px; }
 
-        .flag-box {
-            font-size: 2.5rem;
-            margin-right: 15px;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
-        }
+        /* --- VIEW CONTROLLER --- */
+        .view { display: none; min-height: 100vh; padding-top: 150px; }
+        .view.active { display: block; }
 
-        .info-box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .country-name {
-            font-size: 0.9rem;
-            font-weight: 900;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .weather-info {
-            font-size: 0.7rem;
-            font-family: 'Orbitron', sans-serif; /* Tech/News Look */
-            color: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .temp { color: var(--logistics-orange); font-weight: bold; }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Halfway because we duplicate the list */
-        }
-
-        /* 2. VIDEO HERO SECTION */
+        /* --- HOME / HERO SECTION --- */
         .hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; margin-top: -150px; overflow: hidden;
         }
-
-        #video-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none;
-        }
-
-        #player {
-            width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.5); /* Zoom to hide branding */
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,10,25,0.8), rgba(0,0,0,0.5));
-            z-index: 1;
-        }
-
-        /* 3. NAVIGATION */
-        header {
-            position: absolute;
-            top: 110px; /* Offset for ticker */
-            width: 100%;
-            padding: 0 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .logo { font-weight: 900; font-size: 1.8rem; letter-spacing: 5px; color: #fff; text-decoration: none; }
-        .live-tag { color: var(--logistics-orange); font-size: 0.7rem; font-weight: bold; letter-spacing: 2px; }
-
-        /* 4. CONTENT & TRACKING */
-        .content { position: relative; z-index: 10; text-align: center; width: 100%; max-width: 800px; padding-top: 50px; }
-        .content h1 { font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; letter-spacing: 15px; margin-bottom: 10px; }
+        #video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        #player { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.6); width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; }
         
-        .tracking-box {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-top: 30px;
-        }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(10,21,35,0.7) 0%, rgba(0,0,0,0.8) 100%); z-index: 0; }
+        .hero-content { z-index: 10; width: 90%; max-width: 900px; }
+        .hero-content h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; letter-spacing: 15px; margin-bottom: 10px; text-transform: uppercase; }
+        .hero-content h2 { font-size: 1rem; letter-spacing: 6px; color: var(--cyan); margin-bottom: 40px; text-transform: uppercase; font-weight: 300; }
+        
+        /* --- MANIFEST VERIFICATION BOX --- */
+        .track-card { background: var(--glass); backdrop-filter: blur(25px); padding: 45px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .input-group { display: flex; margin-top: 25px; border-radius: 12px; overflow: hidden; }
+        input { flex: 2; padding: 22px; border: none; outline: none; font-size: 1.1rem; background: rgba(255,255,255,0.95); color: var(--navy); }
+        button.btn-track { flex: 1; background: var(--orange); border: none; color: white; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
 
-        .input-group { display: flex; margin-top: 15px; }
-        .tracking-box input { flex: 2; padding: 20px; border: none; border-radius: 10px 0 0 10px; font-size: 1rem; outline: none; }
-        .tracking-box button { flex: 1; background: var(--logistics-orange); border: none; color: white; font-weight: 900; border-radius: 0 10px 10px 0; cursor: pointer; transition: 0.3s; }
-        .tracking-box button:hover { background: #e67e00; letter-spacing: 2px; }
+        /* --- DASHBOARD / STATS --- */
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; padding: 20px 60px; }
+        .stat-card { background: var(--glass); padding: 35px; border-radius: 18px; border-top: 3px solid var(--cyan); text-align: center; }
+        .stat-card h3 { font-size: 0.75rem; color: var(--cyan); margin-bottom: 15px; letter-spacing: 2px; }
+        .stat-card p { font-size: 2.2rem; font-family: 'Orbitron'; font-weight: 700; }
 
-        /* 5. PARTNER BAR */
-        .trust-bar {
-            position: absolute; bottom: 0; width: 100%; background: #fff;
-            padding: 15px 0; display: flex; justify-content: space-around; z-index: 20;
-        }
-        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.7rem; letter-spacing: 2px; opacity: 0.8; }
+        /* --- FOOTER --- */
+        footer { background: #050b14; padding: 100px 60px; border-top: 1px solid var(--border); margin-top: 100px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .footer-col h4 { color: var(--cyan); margin-bottom: 25px; font-size: 0.85rem; letter-spacing: 2px; }
+        .footer-col p, .footer-col li { font-size: 0.8rem; color: #94a3b8; line-height: 2.2; list-style: none; }
 
+        /* Responsive Mobile */
         @media (max-width: 768px) {
-            .trust-bar { display: none; }
-            .broadcast-bar { height: 70px; }
-            .flag-box { font-size: 1.5rem; }
+            nav { padding: 0 20px; height: 75px; top: 65px; }
+            .nav-links, .btn-portal { display: none; }
+            .nav-logo-img { height: 45px; }
+            header { top: 150px; }
+            .hero-content h1 { font-size: 2.2rem !important; letter-spacing: 5px !important; }
+            .dash-grid { padding: 20px; }
+            footer { padding: 60px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. DYNAMIC TICKER BAR -->
+    <!-- 1. BROADCAST TICKER -->
     <div class="broadcast-bar">
-        <div class="ticker-track" id="tickerTrack">
-            <!-- JavaScript will populate 80 countries here -->
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <!-- 2. CORPORATE NAVIGATION -->
+    <nav>
+        <img src="logo.png" alt="Skyline Global Logo" class="nav-logo-img" onclick="showView('home')">
+        <ul class="nav-links">
+            <li><a href="#" onclick="showView('home')">OVERVIEW</a></li>
+            <li><a href="#" onclick="showView('dashboard')">OPERATIONS</a></li>
+            <li><a href="#footer">GOVERNANCE</a></li>
+            <li><a href="#" onclick="showView('login')" class="btn-portal">INSTITUTIONAL LOGIN</a></li>
+        </ul>
+    </nav>
+
+    <!-- 3. VIEW: HOME -->
+    <div id="home" class="view active">
+        <section class="hero">
+            <div id="video-container">
+                <div id="player"></div>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>SKYLINE GLOBAL</h1>
+                <h2>Strategic Asset Liquidation & Global Transit</h2>
+                <div class="track-card">
+                    <p style="letter-spacing: 4px; font-size: 0.75rem; color: var(--cyan);">ENTERPRISE MANIFEST VERIFICATION SYSTEM</p>
+                    <div class="input-group">
+                        <input type="text" id="trackSearch" placeholder="Enter Global Transit ID (SK-XXX)...">
+                        <button class="btn-track" onclick="showView('details')">VERIFY TRANSIT</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section style="padding: 120px 60px; text-align: center;">
+            <h2 style="letter-spacing: 8px; margin-bottom: 60px; font-size: 1.5rem;">MULTIMODAL LOGISTICS SOLUTIONS</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;">
+                <div class="stat-card">
+                    <i class="fas fa-globe-americas" style="font-size: 2.5rem; color: var(--cyan); margin-bottom: 25px;"></i>
+                    <h4>Global Custodial Transit</h4>
+                    <p style="font-size: 0.75rem; margin-top: 15px; line-height: 1.8;">Secure endpoint-to-endpoint movement of sensitive financial assets and documentation.</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-microchip" style="font-size: 2.5rem; color: var(--cyan); margin-bottom: 25px;"></i>
+                    <h4>Verified Manifesting</h4>
+                    <p style="font-size: 0.75rem; margin-top: 15px; line-height: 1.8;">Blockchain-backed tracking protocols ensuring 100% transparency in the global supply chain.</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-warehouse" style="font-size: 2.5rem; color: var(--cyan); margin-bottom: 25px;"></i>
+                    <h4>Tier-1 Warehousing</h4>
+                    <p style="font-size: 0.75rem; margin-top: 15px; line-height: 1.8;">Climate-controlled, high-security storage facilities in every major international hub.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 4. VIEW: LOGIN -->
+    <div id="login" class="view">
+        <div style="max-width: 450px; margin: 0 auto; background: var(--glass); padding: 50px; border-radius: 24px; border: 1px solid var(--border);">
+            <h2 style="text-align: center; margin-bottom: 35px; letter-spacing: 3px;">PORTAL ACCESS</h2>
+            <div style="margin-bottom: 25px;">
+                <label style="display:block; font-size:0.7rem; color:var(--cyan); margin-bottom:10px; letter-spacing:2px;">INSTITUTIONAL EMAIL</label>
+                <input type="email" style="width:100%; border-radius:8px; background:rgba(255,255,255,0.05); color:white; border:1px solid var(--border); padding:15px;">
+            </div>
+            <div style="margin-bottom: 30px;">
+                <label style="display:block; font-size:0.7rem; color:var(--cyan); margin-bottom:10px; letter-spacing:2px;">SECURITY KEY</label>
+                <input type="password" style="width:100%; border-radius:8px; background:rgba(255,255,255,0.05); color:white; border:1px solid var(--border); padding:15px;">
+            </div>
+            <button style="width: 100%; padding: 18px; border-radius: 8px; background: var(--blue); border:none; color:white; font-weight:900; cursor:pointer;" onclick="showView('dashboard')">AUTHORIZE SESSION</button>
         </div>
     </div>
 
-    <!-- 2. LOGO HEADER -->
-    <header>
-        <a href="#" class="logo">SKYLINE GLOBAL</a>
-        <div class="live-tag">● SYSTEM LIVE: GLOBAL OPERATIONS</div>
-    </header>
-
-    <!-- 3. HERO SECTION -->
-    <section class="hero">
-        <div id="video-container">
-            <div id="player"></div>
+    <!-- 5. VIEW: DASHBOARD -->
+    <div id="dashboard" class="view">
+        <div style="padding: 0 60px; margin-bottom: 40px;">
+            <h2 style="font-family: 'Orbitron'; letter-spacing: 2px;">OPERATIONS CONSOLE: ALEX HARPER</h2>
+            <p style="font-size: 0.8rem; color: var(--cyan); margin-top: 5px;">Institutional Tier: Gold Class | ID: SG-9920-X</p>
         </div>
-        <div class="overlay"></div>
         
-        <div class="content">
-            <h1>SKYLINE GLOBAL</h1>
-            <div class="tracking-box">
-                <p style="letter-spacing: 3px; font-size: 0.8rem; color: #aaa;">INTERNATIONAL CARGO & SETTLEMENT PORTAL</p>
-                <div class="input-group">
-                    <input type="text" id="trackInput" placeholder="Enter Manifest ID...">
-                    <button onclick="handleTrack()">TRACK</button>
+        <div class="dash-grid">
+            <div class="stat-card"><h3>ACTIVE TRANSITS</h3><p>04</p></div>
+            <div class="stat-card"><h3>TOTAL SETTLED</h3><p>1,284</p></div>
+            <div class="stat-card"><h3>PENDING CLEARANCE</h3><p>01</p></div>
+            <div class="stat-card"><h3>SYSTEM HEALTH</h3><p style="color: #22c55e;">OPTIMAL</p></div>
+        </div>
+
+        <table class="shipment-table" style="width:92%; margin:50px auto; border-collapse:collapse; background:var(--glass);">
+            <thead>
+                <tr style="background:rgba(14, 165, 233, 0.1); color:var(--cyan);">
+                    <th style="padding:20px; text-align:left; font-size:0.8rem;">MANIFEST ID</th>
+                    <th style="padding:20px; text-align:left; font-size:0.8rem;">ASSET CLASS</th>
+                    <th style="padding:20px; text-align:left; font-size:0.8rem;">CURRENT NODE</th>
+                    <th style="padding:20px; text-align:left; font-size:0.8rem;">ARRIVAL ETA</th>
+                    <th style="padding:20px; text-align:left; font-size:0.8rem;">STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: pointer; border-bottom:1px solid var(--border);" onclick="showView('details')">
+                    <td style="padding:20px; font-size:0.8rem;">#SK-772910</td>
+                    <td style="padding:20px; font-size:0.8rem;">Certified Documentation</td>
+                    <td style="padding:20px; font-size:0.8rem;">Singapore Central Hub</td>
+                    <td style="padding:20px; font-size:0.8rem;">Mar 18, 2026</td>
+                    <td style="padding:20px; font-size:0.8rem;"><span style="background:var(--blue); padding:5px 12px; border-radius:4px; font-size:0.6rem; font-weight:bold;">IN TRANSIT</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 6. VIEW: ORDER DETAILS -->
+    <div id="details" class="view">
+        <div style="padding: 0 60px; margin-bottom: 50px; text-align:center;">
+            <button onclick="showView('dashboard')" style="background:none; border: 1px solid var(--cyan); padding: 8px 20px; border-radius: 6px; color: var(--cyan); margin-bottom: 30px; cursor: pointer;">← RETURN TO CONSOLE</button>
+            <h2 style="font-family: 'Orbitron'; letter-spacing: 4px;">MANIFEST VERIFICATION: #SK-772910</h2>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:60px; max-width:1100px; margin:0 auto; padding:0 20px;">
+            <div class="track-card">
+                <h4 style="color: var(--cyan); margin-bottom: 25px; letter-spacing: 2px;">ASSET LOGISTICS DATA</h4>
+                <p style="font-size: 0.85rem; margin-bottom: 15px; border-bottom:1px solid var(--border); padding-bottom:10px;"><strong>ORIGIN:</strong> Global Capital Towers, NYC</p>
+                <p style="font-size: 0.85rem; margin-bottom: 15px; border-bottom:1px solid var(--border); padding-bottom:10px;"><strong>DESTINATION:</strong> Harper Institutional, Singapore</p>
+                <p style="font-size: 0.85rem; margin-bottom: 15px; border-bottom:1px solid var(--border); padding-bottom:10px;"><strong>GROSS WEIGHT:</strong> 1.45 KG</p>
+                <p style="font-size: 0.85rem; margin-bottom: 15px;"><strong>PROTOCOL:</strong> Skyline Gold-Standard Encryption</p>
+            </div>
+            <div>
+                <h4 style="color: var(--cyan); margin-bottom: 25px; letter-spacing: 2px;">TRANSIT HISTORY</h4>
+                <div style="border-left: 2px dashed var(--cyan); padding-left: 30px; position:relative;">
+                    <div style="margin-bottom:35px; position:relative;">
+                        <div style="position:absolute; left:-41px; top:0; width:20px; height:20px; background:var(--orange); border-radius:50%; box-shadow:0 0 10px var(--orange);"></div>
+                        <p style="font-size: 0.9rem; font-weight: bold;">Processed at Singapore Changi Hub</p>
+                        <p style="font-size: 0.65rem; color: #888;">Mar 15, 2026 - 02:30 UTC</p>
+                    </div>
+                    <div style="margin-bottom:35px; position:relative;">
+                        <div style="position:absolute; left:-41px; top:0; width:20px; height:20px; background:var(--cyan); border-radius:50%;"></div>
+                        <p style="font-size: 0.9rem; font-weight: bold;">Departed NYC International Node</p>
+                        <p style="font-size: 0.65rem; color: #888;">Mar 14, 2026 - 21:15 UTC</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- 4. PARTNER BAR -->
-    <div class="trust-bar">
-        <span>MAERSK LINE</span>
-        <span>DHL GLOBAL</span>
-        <span>FEDEX TRADE</span>
-        <span>PORT OF DUBAI</span>
-        <span>SINGAPORE CARGO</span>
     </div>
 
+    <!-- 7. CORPORATE FOOTER -->
+    <footer id="footer">
+        <div class="footer-col">
+            <img src="logo.png" height="50" alt="Skyline" style="margin-bottom: 25px;">
+            <p>Skyline Global Financial Logistics is a Tier-1 multimodal asset management and transit corporation servicing institutional clients across 80+ sovereign nodes.</p>
+        </div>
+        <div class="footer-col">
+            <h4>GOVERNANCE</h4>
+            <ul>
+                <li>Operational Compliance</li>
+                <li>Global Transit Treaties</li>
+                <li>Asset Insurance Protocols</li>
+                <li>Privacy & Data Sovereignty</li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>CONTACT OPERATIONS</h4>
+            <p>HQ: 123 Global Logistics Way, NYC 10001</p>
+            <p>Email: verify@skylineglobalfinclogistics.com</p>
+            <p>Network Status: <span style="color:#22c55e">SECURE</span></p>
+        </div>
+    </footer>
+
+    <!-- 8. SCRIPTS -->
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // 80 POPULAR COUNTRIES (Excluding Nigeria)
+        // NAVIGATION LOGIC
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // TICKER DATA (80 Countries)
         const countries = [
             {n:"USA", f:"🇺🇸"}, {n:"UK", f:"🇬🇧"}, {n:"Canada", f:"🇨🇦"}, {n:"Germany", f:"🇩🇪"}, {n:"France", f:"🇫🇷"},
             {n:"Japan", f:"🇯🇵"}, {n:"China", f:"🇨🇳"}, {n:"Australia", f:"🇦🇺"}, {n:"Brazil", f:"🇧🇷"}, {n:"India", f:"🇮🇳"},
-            {n:"UAE", f:"🇦🇪"}, {n:"Singapore", f:"🇸🇬"}, {n:"Switzerland", f:"🇨H"}, {n:"South Korea", f:"🇰🇷"}, {n:"Italy", f:"🇮🇹"},
-            {n:"Spain", f:"🇪🇸"}, {n:"Netherlands", f:"🇳🇱"}, {n:"Sweden", f:"🇳🇴"}, {n:"Norway", f:"🇳🇴"}, {n:"Denmark", f:"🇩🇰"},
-            {n:"Mexico", f:"🇲🇽"}, {n:"Argentina", f:"🇦🇷"}, {n:"Chile", f:"🇨🇱"}, {n:"Turkey", f:"🇹🇷"}, {n:"Saudi Arabia", f:"🇸🇦"},
-            {n:"Qatar", f:"🇶🇦"}, {n:"South Africa", f:"🇿🇦"}, {n:"Egypt", f:"🇪🇬"}, {n:"Israel", f:"🇮🇱"}, {n:"Thailand", f:"🇹🇭"},
-            {n:"Vietnam", f:"🇻🇳"}, {n:"Malaysia", f:"🇲🇾"}, {n:"Indonesia", f:"🇮🇩"}, {n:"Philippines", f:"🇵🇭"}, {n:"Greece", f:"🇬🇷"},
-            {n:"Portugal", f:"🇵🇹"}, {n:"Austria", f:"🇦🇹"}, {n:"Belgium", f:"🇧🇪"}, {n:"Finland", f:"🇫🇮"}, {n:"Poland", f:"🇵🇱"},
-            {n:"Ireland", f:"🇮🇪"}, {n:"New Zealand", f:"🇳🇿"}, {n:"Russia", f:"🇷🇺"}, {n:"Turkey", f:"🇹🇷"}, {n:"Sweden", f:"🇸🇪"},
-            {n:"Norway", f:"🇳🇴"}, {n:"Denmark", f:"🇩🇰"}, {n:"Belgium", f:"🇧🇪"}, {n:"Austria", f:"🇦🇹"}, {n:"Portugal", f:"🇵🇹"},
-            {n:"Greece", f:"🇬🇷"}, {n:"Israel", f:"🇮🇱"}, {n:"Egypt", f:"🇪🇬"}, {n:"South Africa", f:"🇿🇦"}, {n:"Morocco", f:"🇲🇦"},
-            {n:"Kenya", f:"🇰🇪"}, {n:"Ghana", f:"🇬🇭"}, {n:"Ethiopia", f:"🇪🇹"}, {n:"Tanzania", f:"🇹🇿"}, {n:"Uganda", f:"🇺🇬"},
-            {n:"Algeria", f:"🇩🇿"}, {n:"Angola", f:"🇦🇴"}, {n:"Senegal", f:"🇸🇳"}, {n:"Ivory Coast", f:"🇨🇮"}, {n:"Cameroon", f:"🇨🇲"},
-            {n:"Zambia", f:"🇿🇲"}, {n:"Zimbabwe", f:"🇿🇼"}, {n:"Botswana", f:"🇧🇼"}, {n:"Namibia", f:"🇳🇦"}, {n:"Mauritius", f:"🇲🇺"},
-            {n:"Seychelles", f:"🇸🇨"}, {n:"Madagascar", f:"🇲🇬"}, {n:"Rwanda", f:"🇷🇼"}, {n:"Malawi", f:"🇲🇼"}, {n:"Mozambique", f:"🇲🇿"}
+            {n:"UAE", f:"🇦🇪"}, {n:"Singapore", f:"🇸🇬"}, {n:"Switzerland", f:"🇨🇭"}, {n:"Italy", f:"🇮🇹"}, {n:"Spain", f:"🇪🇸"},
+            {n:"Netherlands", f:"🇳🇱"}, {n:"Norway", f:"🇳🇴"}, {n:"Sweden", f:"🇸🇪"}, {n:"Denmark", f:"🇩🇰"}, {n:"Mexico", f:"🇲🇽"},
+            {n:"Turkey", f:"🇹🇷"}, {n:"Saudi Arabia", f:"🇸🇦"}, {n:"South Africa", f:"🇿🇦"}, {n:"Israel", f:"🇮🇱"}, {n:"Thailand", f:"🇹🇭"}
         ];
 
-        const conditions = ["Sunny", "Cloudy", "Rainy", "Clear", "Overcast", "Windy"];
-
         function initTicker() {
-            const track = document.getElementById('tickerTrack');
-            // Duplicate the list to create the infinite loop effect
-            const list = [...countries, ...countries]; 
-            
-            list.forEach(c => {
-                const temp = Math.floor(Math.random() * (35 - 10) + 10);
-                const cond = conditions[Math.floor(Math.random() * conditions.length)];
-                
-                const item = document.createElement('div');
-                item.className = 'ticker-item';
-                item.innerHTML = `
-                    <div class="flag-box">${c.f}</div>
-                    <div class="info-box">
-                        <span class="country-name">${c.n}</span>
-                        <div class="weather-info">
-                            <span>☁ ${cond}</span>
-                            <span class="temp">${temp}°C</span>
-                        </div>
+            const track = document.getElementById('ticker');
+            const longList = Array(5).fill(countries).flat(); 
+            longList.forEach(c => {
+                const temp = Math.floor(Math.random() * 20) + 12;
+                const div = document.createElement('div');
+                div.className = 'ticker-item';
+                div.innerHTML = `
+                    <span class="flag">${c.f}</span>
+                    <div style="display:flex; flex-direction:column">
+                        <span class="t-name">${c.n} Node</span>
+                        <span class="t-weather">SECURE HUB / ${temp}°C</span>
                     </div>
                 `;
-                track.appendChild(item);
+                track.appendChild(div);
             });
         }
 
-        // YOUTUBE PLAYER CONFIG
+        // SEAMLESS VIDEO LOGIC
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -272,11 +324,6 @@
                     if (player.getCurrentTime() > (duration - 1)) { player.seekTo(0); }
                 }, 500);
             }
-        }
-
-        function handleTrack() {
-            const id = document.getElementById('trackInput').value;
-            alert(id ? "Scanning Satellite Tracking for: " + id : "Enter a valid ID");
         }
 
         window.onload = initTicker;
