@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS RESET & BASE STYLES */
+        /* CSS RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow-x: hidden; }
+        body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
 
-        /* HERO SECTION CONTAINER */
+        /* HERO CONTAINER */
         .hero {
             position: relative;
             height: 100vh;
@@ -22,10 +22,10 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            overflow: hidden;
+            overflow: hidden; /* Important for cropping the video */
         }
 
-        /* YOUTUBE BACKGROUND CONFIGURATION */
+        /* THE VIDEO CROPPER - This hides the YouTube Title bar */
         .video-background {
             position: absolute;
             top: 0;
@@ -33,31 +33,31 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none; /* Prevents clicking on the video */
+            pointer-events: none; 
+            overflow: hidden; /* This hides the zoomed-in parts of the video */
         }
 
-        ..video-background iframe {
-    width: 100vw;
-    height: 56.25vw;
-    min-height: 100vh;
-    min-width: 177.77vh;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1.3);
-    z-index: 0;
-}
+        .video-background iframe {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            min-height: 100vh;
+            min-width: 177.77vh; /* 16:9 Aspect Ratio */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* SCALE(1.4) zooms in to push the title and uploader name off-screen */
+            transform: translate(-50%, -50%) scale(1.4); 
         }
 
-        /* CORPORATE OVERLAY (Makes text readable) */
+        /* NAVY TINT OVERLAY */
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 10, 25, 0.7); /* Dark Navy Tint */
+            background: rgba(0, 10, 25, 0.7); 
             z-index: 1;
         }
 
-        /* NAVIGATION HEADER */
+        /* HEADER */
         header {
             position: absolute;
             top: 0;
@@ -87,7 +87,7 @@
             text-transform: uppercase;
         }
 
-        /* MAIN CONTENT SECTION */
+        /* MAIN CONTENT */
         .content {
             position: relative;
             z-index: 10;
@@ -102,21 +102,19 @@
             letter-spacing: 12px;
             text-transform: uppercase;
             margin-bottom: 5px;
-            text-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         .content h2 {
             font-size: clamp(0.9rem, 3vw, 1.2rem);
             letter-spacing: 6px;
-            color: #3b82f6; /* Global Blue */
+            color: #3b82f6;
             text-transform: uppercase;
             margin-bottom: 40px;
-            font-weight: 400;
         }
 
-        /* MODERN TRACKING BOX (UI DESIGN) */
+        /* TRACKING BOX */
         .tracking-box {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             padding: 40px;
@@ -125,14 +123,6 @@
             display: inline-block;
             width: 100%;
             max-width: 600px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .tracking-box p {
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            color: #ccc;
         }
 
         .input-group {
@@ -147,34 +137,30 @@
             border-radius: 5px 0 0 5px;
             outline: none;
             font-size: 1rem;
-            background: #fff;
-            color: #333;
         }
 
         .tracking-box button {
             flex: 1;
             padding: 18px;
-            background-color: #ff8c00; /* Logistics Orange */
+            background-color: #ff8c00;
             color: white;
             border: none;
             border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-weight: 700;
-            letter-spacing: 1px;
-            transition: 0.3s ease;
+            transition: 0.3s;
         }
 
         .tracking-box button:hover {
             background-color: #e67e00;
-            transform: scale(1.02);
         }
 
-        /* PARTNER TRUST BAR */
+        /* PARTNER BAR */
         .trust-bar {
             position: absolute;
             bottom: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: #fff;
             padding: 20px 0;
             display: flex;
             justify-content: space-around;
@@ -190,31 +176,25 @@
             opacity: 0.7;
         }
 
-        /* MOBILE FIXES */
         @media (max-width: 768px) {
-            header { padding: 20px; flex-direction: column; }
             .input-group { flex-direction: column; }
-            .tracking-box input { border-radius: 5px; margin-bottom: 10px; }
-            .tracking-box button { border-radius: 5px; }
-            .trust-bar { display: none; } /* Hide footer on small mobile to save space */
+            .tracking-box input, .tracking-box button { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+            .trust-bar { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- SITE HEADER -->
     <header>
         <a href="#" class="logo">SKYLINE GLOBAL</a>
-        <div class="status-tag">Network Status: Operational</div>
+        <div class="status-tag">Status: Operational</div>
     </header>
 
-    <!-- HERO SECTION WITH VIDEO -->
     <section class="hero">
-        
-        <!-- YOUTUBE VIDEO BACKGROUND -->
+        <!-- CROPPED VIDEO BACKGROUND -->
         <div class="video-background">
             <iframe 
-                src="https://www.youtube.com/embed/2KxCjRr-wlM?autoplay=1&mute=1&loop=1&playlist=2KxCjRr-wlM&controls=0&rel=0&modestbranding=1&iv_load_policy=3" 
+                src="https://www.youtube.com/embed/2KxCjRr-wlM?autoplay=1&mute=1&loop=1&playlist=2KxCjRr-wlM&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1" 
                 frameborder="0" 
                 allow="autoplay; encrypted-media">
             </iframe>
@@ -227,34 +207,28 @@
             <h2>Global Financial Logistics & Settlement</h2>
             
             <div class="tracking-box">
-                <p>SECURE TRANSIT PORTAL</p>
                 <div class="input-group">
-                    <input type="text" id="manifestID" placeholder="Enter Manifest or Tracking ID">
-                    <button onclick="checkStatus()">TRACK SHIPMENT</button>
+                    <input type="text" id="manifestID" placeholder="Enter Tracking ID">
+                    <button onclick="checkStatus()">TRACK</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- LOGISTICS PARTNERS FOOTER -->
     <div class="trust-bar">
         <span>PARTNER: MAERSK</span>
         <span>PARTNER: DHL GLOBAL</span>
         <span>PARTNER: FEDEX TRADE</span>
         <span>PARTNER: PORT OF DUBAI</span>
-        <span>PARTNER: SINGAPORE TRANSIT</span>
     </div>
 
-    <!-- LOGIC FOR TRACKING -->
     <script>
         function checkStatus() {
             const val = document.getElementById('manifestID').value;
             if (val === "") {
-                alert("Please enter a valid Skyline Global Tracking ID.");
+                alert("Please enter a Tracking ID.");
             } else {
-                alert("Connecting to Skyline Secure Servers... Fetching Manifest: " + val);
-                // Future implementation: 
-                // window.location.href = "https://skylineglobalfinclogistics.com/status/" + val;
+                alert("Searching Skyline Database for: " + val);
             }
         }
     </script>
