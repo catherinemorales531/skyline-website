@@ -3,80 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Global | World Operations</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- link to your private CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <title>Skyline Global | Financial Logistics & Trade Finance</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
+
+        /* THE VIEWPORT CONTAINER */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* 1. THE VIDEO BOX (CROPS THE ZOOMED VIDEO) */
+        #video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* 2. THE PLAYER (ZOOMED TO HIDE TITLES/UPLOADER) */
+        #player {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            min-height: 100vh;
+            min-width: 177.77vh; /* 16:9 Aspect Ratio */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* Scale 1.5x pushes the YouTube title bar off the top of the screen */
+            transform: translate(-50%, -50%) scale(1.5); 
+        }
+
+        /* 3. NAVY TINT OVERLAY */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 10, 25, 0.6); 
+            z-index: 1;
+        }
+
+        /* HEADER & LOGO */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 4px; color: #fff; text-decoration: none; text-transform: uppercase; }
+        .status-tag { font-size: 0.7rem; letter-spacing: 2px; color: #ff8c00; border: 1px solid #ff8c00; padding: 5px 15px; text-transform: uppercase; }
+
+        /* MAIN CONTENT */
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 5px; }
+        .content h2 { font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: 6px; color: #3b82f6; text-transform: uppercase; margin-bottom: 40px; }
+
+        /* TRACKING BOX UI */
+        .tracking-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .input-group { display: flex; width: 100%; }
+        .tracking-box input { flex: 2; padding: 18px; border: none; border-radius: 5px 0 0 5px; outline: none; font-size: 1rem; }
+        .tracking-box button { flex: 1; padding: 18px; background-color: #ff8c00; color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .tracking-box button:hover { background-color: #e67e00; }
+
+        /* FOOTER TRUST BAR */
+        .trust-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            .input-group { flex-direction: column; }
+            .tracking-box input, .tracking-box button { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+            .trust-bar { display: none; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- TOP TICKER BAR -->
-    <div class="broadcast-bar">
-        <div class="ticker-track" id="ticker"></div>
-    </div>
+    <header>
+        <a href="#" class="logo">SKYLINE GLOBAL</a>
+        <div class="status-tag">Status: Operational</div>
+    </header>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <img src="logo.png" alt="Skyline Global" class="nav-logo" onclick="showView('home')">
-        <ul class="nav-links">
-            <li onclick="showView('home')">OVERVIEW</li>
-            <li onclick="showView('dashboard')">OPERATIONS</li>
-            <li onclick="showView('login')" class="btn-portal">LOGIN</li>
-        </ul>
-    </nav>
+    <section class="hero">
+        <!-- VIDEO API TARGET -->
+        <div id="video-container">
+            <div id="player"></div>
+        </div>
 
-    <!-- SECTION: HOME -->
-    <div id="home" class="view active">
-        <section class="hero">
-            <div id="video-container"><div id="player"></div></div>
-            <div class="overlay"></div>
-            <div class="hero-content">
-                <h1>SKYLINE GLOBAL</h1>
-                <p class="sub-header">Strategic Financial Logistics</p>
-                <div class="track-card">
-                    <p>VERIFICATION PORTAL</p>
-                    <div class="input-group">
-                        <input type="text" id="trackSearch" placeholder="Enter Transit ID...">
-                        <button onclick="showView('dashboard')">TRACK</button>
-                    </div>
+        <div class="overlay"></div>
+        
+        <div class="content">
+            <h1>SKYLINE GLOBAL</h1>
+            <h2>Global Financial Logistics & Settlement</h2>
+            
+            <div class="tracking-box">
+                <div class="input-group">
+                    <input type="text" id="manifestID" placeholder="Enter Tracking ID">
+                    <button onclick="checkStatus()">TRACK</button>
                 </div>
             </div>
-        </section>
-    </div>
-
-    <!-- SECTION: LOGIN -->
-    <div id="login" class="view">
-        <div class="auth-box">
-            <h2>INSTITUTIONAL ACCESS</h2>
-            <input type="email" placeholder="Email Address">
-            <input type="password" placeholder="Access Key">
-            <button onclick="showView('dashboard')">AUTHORIZE</button>
         </div>
+    </section>
+
+    <div class="trust-bar">
+        <span>PARTNER: MAERSK</span>
+        <span>PARTNER: DHL GLOBAL</span>
+        <span>PARTNER: FEDEX TRADE</span>
+        <span>PARTNER: PORT OF DUBAI</span>
     </div>
 
-    <!-- SECTION: DASHBOARD -->
-    <div id="dashboard" class="view">
-        <div class="dash-container">
-            <h2>OPERATIONS CONSOLE</h2>
-            <div class="stat-grid">
-                <div class="stat"><h3>ACTIVE</h3><p>04</p></div>
-                <div class="stat"><h3>SETTLED</h3><p>1,284</p></div>
-                <div class="stat"><h3>HEALTH</h3><p style="color:#0ea5e9">SECURE</p></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer id="footer">
-        <img src="logo.png" height="50">
-        <p>HQ: 123 Global Logistics Way, NYC</p>
-        <p>Email: verify@skylineglobalfinclogistics.com</p>
-    </footer>
-
-    <!-- YouTube API and link to your private JS file -->
+    <!-- 4. YOUTUBE API LOADER -->
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="script.js"></script>
+
+    <script>
+        let player;
+
+        // This function is triggered by the YouTube API script above
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '2KxCjRr-wlM', // <--- YOUR VIDEO LINK ID IS HERE
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'modestbranding': 1,
+                    'loop': 1,
+                    'mute': 1,
+                    'playlist': '2KxCjRr-wlM',
+                    'iv_load_policy': 3,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // SEAMLESS LOOP: Detects when the video is almost over and jumps to start
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                let duration = player.getDuration();
+                // We check every 500ms if we are 1 second away from the end
+                setInterval(function() {
+                    let currentTime = player.getCurrentTime();
+                    if (currentTime > (duration - 1)) {
+                        player.seekTo(0); // Jump to start before the black screen appears
+                    }
+                }, 500);
+            }
+            if (event.data == YT.PlayerState.ENDED) {
+                player.playVideo();
+            }
+        }
+
+        function checkStatus() {
+            const val = document.getElementById('manifestID').value;
+            if (val === "") {
+                alert("Please enter a Tracking ID.");
+            } else {
+                alert("Searching Skyline Database for: " + val);
+            }
+        }
+    </script>
+
 </body>
 </html>
