@@ -126,7 +126,9 @@
                 <li onclick="showPage('home')">OVERVIEW</li>
                 <li onclick="showPage('about')">THE HERITAGE</li>
                 <li onclick="showPage('services')">SOLUTIONS</li>
-                <li onclick="showPage('login')" class="nav-cta">INSTITUTIONAL LOGIN</li>
+                <li onclick="showPage('login')" class="nav-cta">INSTITUTIONAL LOGIN</li
+                 <li onclick="showPage('book')">BOOK SHIPMENT</li>                                                                      
+                
             </ul>
         </div>
     </nav>
@@ -157,6 +159,54 @@
                 <p style="line-height: 2; color: #aaa;">Founded on principles of absolute security, Skyline Global provides the infrastructure for high-value document transit and strategic asset liquidation across 80+ sovereign nodes.</p>
             </div>
         </section>
+        
+        <!-- PAGE: BOOK SHIPMENT (LOGISTICS MANIFEST FORM) -->
+        <section id="book" class="view">
+            <div style="max-width: 900px; margin: 0 auto; padding: 40px; background: var(--glass); border: 1px solid var(--border); border-radius: 10px;">
+                <h2 style="font-family:'Playfair Display'; color:var(--gold); margin-bottom:10px; letter-spacing:2px;">CREATE SHIPMENT MANIFEST</h2>
+                <p style="font-size:0.6rem; color:#888; letter-spacing:3px; margin-bottom:30px; text-transform:uppercase;">Institutional Asset Transit Request</p>
+                
+                <form id="logisticsForm" onsubmit="event.preventDefault(); handleBooking();">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:25px; text-align:left;">
+                        <div>
+                            <label style="font-size:0.6rem; color:var(--gold); display:block; margin-bottom:8px;">ORIGIN CONSIGNOR (CITY / COUNTRY)</label>
+                            <input type="text" required placeholder="e.g. Zurich, Switzerland" style="width:100%; padding:15px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                        </div>
+                        <div>
+                            <label style="font-size:0.6rem; color:var(--gold); display:block; margin-bottom:8px;">DESTINATION CONSIGNEE</label>
+                            <input type="text" required placeholder="e.g. Dubai, UAE" style="width:100%; padding:15px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px; margin-bottom:25px; text-align:left;">
+                        <div>
+                            <label style="font-size:0.6rem; color:var(--gold); display:block; margin-bottom:8px;">ASSET CLASS</label>
+                            <select style="width:100%; padding:15px; background:var(--navy); border:1px solid var(--border); color:white; outline:none;">
+                                <option>Financial Instruments</option>
+                                <option>Certified Documentation</option>
+                                <option>High-Value Bullion</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:0.6rem; color:var(--gold); display:block; margin-bottom:8px;">WEIGHT (KG)</label>
+                            <input type="number" step="0.01" required placeholder="0.00" style="width:100%; padding:15px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white;">
+                        </div>
+                        <div>
+                            <label style="font-size:0.6rem; color:var(--gold); display:block; margin-bottom:8px;">SERVICE LEVEL</label>
+                            <select style="width:100%; padding:15px; background:var(--navy); border:1px solid var(--border); color:white;">
+                                <option>Skyline Express Gold</option>
+                                <option>Diplomatic Custodial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" style="width:100%; padding:20px; background:var(--gold); border:none; color:black; font-weight:900; cursor:pointer; letter-spacing:2px; text-transform:uppercase;">
+                        INITIALIZE TRANSIT HANDSHAKE
+                    </button>
+                </form>
+            </div>
+        </section>
+        
 
         <!-- PAGE: LOGIN -->
         <section id="login" class="view">
@@ -237,7 +287,26 @@
             {n:"USA", f:"🇺🇸"}, {n:"UK", f:"🇬🇧"}, {n:"Japan", f:"🇯🇵"}, {n:"China", f:"🇨🇳"}, {n:"UAE", f:"🇦🇪"},
             {n:"Germany", f:"🇩🇪"}, {n:"France", f:"🇫🇷"}, {n:"Switzerland", f:"🇨🇭"}, {n:"Singapore", f:"🇸🇬"}, {n:"Australia", f:"🇦🇺"}
         ];
+        
+// LOGISTICS FORM HANDLER
+        function handleBooking() {
+            const formBtn = document.querySelector('#logisticsForm button');
+            formBtn.innerText = "GENERATING MANIFEST...";
+            formBtn.style.background = "#ffffff";
 
+            setTimeout(() => {
+                const manifestID = "SK-" + Math.floor(100000 + Math.random() * 900000);
+                alert("SUCCESS: Manifest Secured.\n\nTransit ID: " + manifestID);
+                
+                // Switch to dashboard
+                showPage('dashboard'); 
+                
+                // Reset button
+                formBtn.innerText = "INITIALIZE TRANSIT HANDSHAKE";
+                formBtn.style.background = "var(--gold)";
+            }, 2500);
+        }
+    
         window.onload = function() {
             const track = document.getElementById('tickerTrack');
             const fullList = Array(10).fill(countries).flat();
