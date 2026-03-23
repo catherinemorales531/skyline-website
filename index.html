@@ -472,40 +472,97 @@
 
 
         // 3. YOUTUBE VIDEO SEAMLESS API FIX
+        <!-- 1. YOUTUBE API LOADER -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
         let player;
+
+        // 2. INITIALIZE PLAYER
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 videoId: '2KxCjRr-wlM',
                 playerVars: { 
-                    'autoplay': 1, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 
-                    'loop': 1, 'mute': 1, 'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 
+                    'autoplay': 1, 
+                    'controls': 0, 
+                    'showinfo': 0, 
+                    'modestbranding': 1, 
+                    'mute': 1, 
+                    'rel': 0,
+                    'iv_load_policy': 3,
+                    'disablekb': 1
                 },
                 events: {
-                    'onReady': (e) => { e.target.mute(); e.target.playVideo(); },
-                    'onStateChange': (e) => {
-                        // Loop the video 1 second early to prevent the black flash
-                        if (e.data == YT.PlayerState.PLAYING) {
-                            setInterval(() => {
-                                if (player.getCurrentTime() > (player.getDuration() - 1)) {
-                                    player.seekTo(0);
-                                }
-                            }, 500);
+                    'onReady': (event) => {
+                        event.target.mute();
+                        event.target.playVideo();
+                    },
+                    'onStateChange': (event) => {
+                        // Forces video to play if it ends or pauses
+                        if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+                            player.playVideo();
                         }
                     }
                 }
             });
+
+            // 3. THE "UNSTOPPABLE" MONITOR (Checks every 1 second)
+            setInterval(() => {
+                if (player && player.getPlayerState) {
+                    const state = player.getPlayerState();
+                    // If not playing (1 is PLAYING), force play
+                    if (state !== 1) {
+                        player.playVideo();
+                    }
+                    
+                    // SEAMLESS LOOP: Seek back 1 second before video ends 
+                    // This prevents the black reload screen
+                    const currentTime = player.getCurrentTime();
+                    const duration = player.getDuration();
+                    if (duration > 0 && currentTime > (duration - 1)) {
+                        player.seekTo(0);
+                    }
+                }
+            }, 1000);
         }
 
+        // 4. NAVIGATION & OTHER LOGIC
+        function showPage(pageId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-        // 4. ACTION HANDLERS
+        const countries = [
+            {n:"USA", f:"🇺🇸"}, {n:"UK", f:"🇬🇧"}, {n:"Japan", f:"🇯🇵"}, {n:"China", f:"🇨🇳"}, {n:"UAE", f:"🇦🇪"},
+            {n:"Switzerland", f:"🇨🇭"}, {n:"Singapore", f:"🇸🇬"}, {n:"Germany", f:"🇩🇪"}, {n:"France", f:"🇫🇷"}, {n:"Australia", f:"🇦🇺"}
+        ];
+
+        function initTicker() {
+            const track = document.getElementById('tickerTrack');
+            if(!track) return;
+            const fullList = Array(10).fill(countries).flat();
+            fullList.forEach(c => {
+                const temp = Math.floor(Math.random() * 20) + 12;
+                const div = document.createElement('div');
+                div.className = 'ticker-item';
+                div.innerHTML = `<span style="font-size:1.8rem; margin-right:15px;">${c.f}</span>
+                    <div style="line-height:1">
+                        <p style="font-size:0.7rem; font-weight:900; letter-spacing:1px">${c.n} NODE</p>
+                        <p style="font-size:0.6rem; color:#c5a059; font-family:'Orbitron'">SECURE / ${temp}°C</p>
+                    </div>`;
+                track.appendChild(div);
+            });
+        }
+
         function handleVerify() {
-            alert("Establishing Secure Satellite Link... Request Authorized.");
+            const val = document.getElementById('manifestID').value;
+            if(!val) return alert("Please enter a valid Manifest ID");
             showPage('login');
         }
 
-
-        // INITIALIZE ON LOAD
         window.onload = initTicker;
     </script>
+       
 </body>
 </html>
