@@ -3,219 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Global | Financial Logistics & Trade Finance</title>
+    <title>Skyline Global | Strategic Financial Logistics</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- 
+        TYPOGRAPHY & ICONS 
+        Montserrat: Modern Professional
+        Playfair Display: Classic Mature Elegance
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Playfair+Display:wght@700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body, html { height: 100%; width: 100%; background-color: #000; color: #fff; overflow: hidden; }
+        /* 
+           ========================================
+           1. CSS VARIABLES & CORE SETTINGS
+           ========================================
+        */
+        :root {
+            --navy: #0a1523;         /* Background */
+            --gold: #c5a059;         /* Corporate accent */
+            --slate: #1e293b;        /* Secondary background */
+            --cyan: #0ea5e9;         /* Tech blue */
+            --white: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.03);
+        }
 
-        /* THE VIEWPORT CONTAINER */
-        .hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Montserrat', sans-serif; 
+        }
+
+        body, html { 
+            background-color: var(--navy); 
+            color: var(--white); 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+
+        /* 
+           ========================================
+           2. BROADCAST TICKER (SMOOTH MOVEMENT)
+           ========================================
+        */
+        .ops-ticker { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            height: 60px; 
+            background: rgba(0,0,0,0.95); 
+            border-bottom: 1px solid var(--gold); 
+            z-index: 2000; 
+        }
+
+        .ticker-track { 
+            display: flex; 
+            white-space: nowrap; 
+            height: 100%; 
+            align-items: center; 
+            will-change: transform; 
+            animation: smoothScroll 180s linear infinite; 
+        }
+
+        /* Hardware acceleration to make the movement professional and fast */
+        @keyframes smoothScroll { 
+            from { transform: translate3d(0, 0, 0); } 
+            to { transform: translate3d(-50%, 0, 0); } 
+        }
+
+        .ticker-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
+            padding: 0 40px;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 1. THE VIDEO BOX (CROPS THE ZOOMED VIDEO) */
-        #video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
+
+        /* 
+           ========================================
+           3. CORPORATE NAVIGATION
+           ========================================
+        */
+        nav { 
+            position: fixed; 
+            top: 60px; 
+            width: 100%; 
+            height: 90px; 
+            background: rgba(8, 13, 20, 0.8); 
+            backdrop-filter: blur(20px); 
+            z-index: 1500; 
+            border-bottom: 1px solid var(--border); 
         }
 
-        /* 2. THE PLAYER (ZOOMED TO HIDE TITLES/UPLOADER) */
-        #player {
-            width: 100vw;
-            height: 56.25vw; /* 16:9 Aspect Ratio */
-            min-height: 100vh;
-            min-width: 177.77vh; /* 16:9 Aspect Ratio */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            /* Scale 1.5x pushes the YouTube title bar off the top of the screen */
-            transform: translate(-50%, -50%) scale(1.5); 
+        .nav-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 60px; 
+            height: 100%; 
         }
 
-        /* 3. NAVY TINT OVERLAY */
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 10, 25, 0.6); 
-            z-index: 1;
+        .nav-logo { 
+            height: 60px; 
+            cursor: pointer; 
+            transition: 0.3s;
+            filter: brightness(1.1);
         }
 
-        /* HEADER & LOGO */
-        header {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            padding: 30px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 40px; 
+            font-weight: 700; 
+            font-size: 0.75rem; 
+            letter-spacing: 2px;
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 4px; color: #fff; text-decoration: none; text-transform: uppercase; }
-        .status-tag { font-size: 0.7rem; letter-spacing: 2px; color: #ff8c00; border: 1px solid #ff8c00; padding: 5px 15px; text-transform: uppercase; }
+        .nav-links li { cursor: pointer; transition: 0.3s; }
+        .nav-links li:hover { color: var(--gold); }
 
-        /* MAIN CONTENT */
-        .content {
-            position: relative;
-            z-index: 10;
-            padding: 20px;
-            width: 100%;
-            max-width: 900px;
+        .nav-cta { 
+            color: var(--gold) !important; 
+            border: 1px solid var(--gold); 
+            padding: 8px 20px; 
+            border-radius: 3px; 
         }
 
-        .content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 5px; }
-        .content h2 { font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: 6px; color: #3b82f6; text-transform: uppercase; margin-bottom: 40px; }
 
-        /* TRACKING BOX UI */
-        .tracking-box {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: inline-block;
-            width: 100%;
-            max-width: 600px;
+        /* 
+           ========================================
+           4. PAGE VIEW SYSTEM (SPA)
+           ========================================
+        */
+        .view { 
+            display: none; 
+            min-height: 100vh; 
+            padding-top: 150px; 
         }
 
-        .input-group { display: flex; width: 100%; }
-        .tracking-box input { flex: 2; padding: 18px; border: none; border-radius: 5px 0 0 5px; outline: none; font-size: 1rem; }
-        .tracking-box button { flex: 1; padding: 18px; background-color: #ff8c00; color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; font-weight: 700; transition: 0.3s; }
-        .tracking-box button:hover { background-color: #e67e00; }
-
-        /* FOOTER TRUST BAR */
-        .trust-bar {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: #fff;
-            padding: 20px 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 20;
+        .view.active { 
+            display: block; 
+            animation: fadeUp 1s ease; 
         }
 
-        .trust-bar span { color: #1a365d; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; opacity: 0.7; }
+        @keyframes fadeUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
+
+        /* 
+           ========================================
+           5. HERO SECTION & CINEMATIC VIDEO
+           ========================================
+        */
+        .hero { 
+            position: relative; 
+            height: 100vh; 
+            margin-top: -150px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+
+        #video-container { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+        }
+
+        #player { 
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%) scale(1.8); /* Scale to hide YouTube branding */
+            width: 100vw; 
+            height: 56.25vw; 
+            min-height: 100vh; 
+            min-width: 177.77vh; 
+        }
+
+        .hero-overlay { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: radial-gradient(circle, rgba(8,13,20,0.4) 0%, rgba(0,0,0,0.9) 100%); 
+            z-index: -1; 
+        }
+
+        .hero-content { text-align: center; z-index: 10; max-width: 1000px; padding: 20px; }
+        
+        .hero-content h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(2.5rem, 8vw, 5.5rem); 
+            letter-spacing: 15px; 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+        }
+
+        .hero-sub { 
+            color: var(--gold); 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            font-size: 0.9rem;
+            margin-bottom: 50px; 
+        }
+
+        /* TRACKING MODULE */
+        .track-module { 
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            padding: 30px; 
+            display: flex; 
+            max-width: 650px; 
+            margin: 0 auto; 
+            backdrop-filter: blur(10px);
+        }
+
+        .track-module input { 
+            flex: 2; 
+            background: transparent; 
+            border: none; 
+            color: white; 
+            font-size: 1.1rem; 
+            outline: none; 
+            padding-left: 10px;
+        }
+
+        .track-module button { 
+            flex: 1; 
+            background: var(--gold); 
+            border: none; 
+            color: black; 
+            font-weight: 900; 
+            cursor: pointer; 
+            padding: 15px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .track-module button:hover { background: #fff; }
+
+
+        /* 
+           ========================================
+           6. DASHBOARD & STATS
+           ========================================
+        */
+        .dashboard-wrap { max-width: 1100px; margin: 50px auto; padding: 40px; background: var(--glass); border: 1px solid var(--border); }
+        
+        .stats-grid { display: flex; gap: 20px; margin: 30px 0; }
+        
+        .stat-item { 
+            background: rgba(255,255,255,0.02); 
+            padding: 30px; 
+            text-align: center; 
+            flex: 1; 
+            border-top: 3px solid var(--gold); 
+        }
+
+        .stat-item h4 { font-size: 0.7rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; }
+        .stat-item p { font-size: 2.5rem; font-family: 'Orbitron'; }
+
+
+        /* 
+           ========================================
+           7. FOOTER & MISC
+           ========================================
+        */
+        footer { 
+            padding: 100px 60px; 
+            text-align: center; 
+            background: #050b14; 
+            border-top: 1px solid var(--border); 
+        }
+
+        .footer-logo { height: 50px; margin-bottom: 20px; filter: grayscale(1); opacity: 0.5; }
+
+
+        /* 
+           ========================================
+           8. RESPONSIVE PATCH
+           ========================================
+        */
         @media (max-width: 768px) {
-            .input-group { flex-direction: column; }
-            .tracking-box input, .tracking-box button { width: 100%; border-radius: 5px; margin-bottom: 10px; }
-            .trust-bar { display: none; }
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 2.5rem; letter-spacing: 5px; }
+            .hero-sub { font-size: 0.6rem; letter-spacing: 3px; }
+            .stats-grid { flex-direction: column; }
+            .track-module { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">SKYLINE GLOBAL</a>
-        <div class="status-tag">Status: Operational</div>
-    </header>
-
-    <section class="hero">
-        <!-- VIDEO API TARGET -->
-        <div id="video-container">
-            <div id="player"></div>
+    <!-- 1. NEWS TICKER BAR -->
+    <div class="ops-ticker">
+        <div class="ticker-track" id="tickerTrack">
+            <!-- Dynamic Weather & Countries will load here -->
         </div>
-
-        <div class="overlay"></div>
-        
-        <div class="content">
-            <h1>SKYLINE GLOBAL</h1>
-            <h2>Global Financial Logistics & Settlement</h2>
-            
-            <div class="tracking-box">
-                <div class="input-group">
-                    <input type="text" id="manifestID" placeholder="Enter Tracking ID">
-                    <button onclick="checkStatus()">TRACK</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="trust-bar">
-        <span>PARTNER: MAERSK</span>
-        <span>PARTNER: DHL GLOBAL</span>
-        <span>PARTNER: FEDEX TRADE</span>
-        <span>PARTNER: PORT OF DUBAI</span>
     </div>
 
-    <!-- 4. YOUTUBE API LOADER -->
+
+    <!-- 2. NAVIGATION BAR -->
+    <nav>
+        <div class="nav-container">
+            <img src="logo.png" alt="Skyline" class="nav-logo" onclick="showPage('home')">
+            <ul class="nav-links">
+                <li onclick="showPage('home')">HOME</li>
+                <li onclick="showPage('about')">ABOUT</li>
+                <li onclick="showPage('services')">SERVICES</li>
+                <li onclick="showPage('compliance')">COMPLIANCE</li>
+                <li onclick="showPage('login')" class="nav-cta">CLIENT PORTAL</li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- 3. MAIN APP CONTAINER -->
+    <main id="app">
+
+        <!-- PAGE 1: HOME (THE CINEMATIC LANDING) -->
+        <section id="home" class="view active">
+            <div class="hero">
+                <div id="video-container"><div id="player"></div></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p style="letter-spacing: 5px; font-weight: 700; color: var(--gold); margin-bottom: 20px;">ESTABLISHED 2014</p>
+                    <h1>SKYLINE GLOBAL</h1>
+                    <p class="hero-sub">Strategic Multimodal Logistics for Institutional Partners.</p>
+                    <div class="track-module">
+                        <input type="text" placeholder="Enter Manifest or Transit ID...">
+                        <button onclick="handleVerify()">VERIFY TRANSIT</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PAGE 2: ABOUT (THE HERITAGE) -->
+        <section id="about" class="view">
+            <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 60px 20px;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 3.5rem; color: var(--gold); margin-bottom: 30px;">THE HERITAGE</h2>
+                <p style="line-height: 2; font-size: 1.1rem; color: #cbd5e1;">Skyline Global Financial Logistics is a Tier-1 multimodal asset management corporation. We provide the infrastructure for sovereign document transit and high-value financial logistics across 80+ nations.</p>
+                <div style="display: flex; justify-content: center; gap: 40px; margin-top: 50px; font-weight: bold; font-size: 0.7rem; letter-spacing: 3px; color: var(--gold);">
+                    <span>SGS VERIFIED</span>
+                    <span>ISO 9001 CERTIFIED</span>
+                    <span>GDPR COMPLIANT</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PAGE 3: SERVICES -->
+        <section id="services" class="view">
+            <div style="max-width: 1100px; margin: 0 auto; padding: 60px 20px;">
+                <h2 style="text-align: center; letter-spacing: 10px; margin-bottom: 50px;">SOLUTIONS</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-plane" style="font-size: 2rem; margin-bottom: 20px;"></i>
+                        <h4>AIR FREIGHT</h4>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">Express custodial movement for sovereign documentation.</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-ship" style="font-size: 2rem; margin-bottom: 20px;"></i>
+                        <h4>MARITIME</h4>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">Global container settlement and port operations.</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-vault" style="font-size: 2rem; margin-bottom: 20px;"></i>
+                        <h4>STORAGE</h4>
+                        <p style="font-size: 0.8rem; margin-top: 10px;">High-security bonded warehousing in Tier-1 cities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PAGE 4: LOGIN -->
+        <section id="login" class="view">
+            <div style="max-width: 400px; margin: 50px auto; background: var(--glass); border: 1px solid var(--border); padding: 50px; text-align: center;">
+                <h3 style="letter-spacing: 4px; margin-bottom: 10px;">PORTAL ACCESS</h3>
+                <p style="font-size: 0.6rem; color: #888; margin-bottom: 30px;">AUTHORIZATION REQUIRED</p>
+                <input type="email" placeholder="Institutional Email" style="width: 100%; padding: 15px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; outline: none;">
+                <input type="password" placeholder="Access Key" style="width: 100%; padding: 15px; margin-bottom: 25px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; outline: none;">
+                <button onclick="showPage('dashboard')" style="width: 100%; padding: 15px; background: var(--gold); border: none; font-weight: 900; cursor: pointer;">AUTHORIZE SESSION</button>
+            </div>
+        </section>
+
+
+        <!-- PAGE 5: DASHBOARD (CLIENT PORTAL) -->
+        <section id="dashboard" class="view">
+            <div class="dashboard-wrap">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
+                    <h2 style="font-family: 'Orbitron'; font-size: 1rem;">OPERATIONS CONSOLE | INSTITUTIONAL</h2>
+                    <span style="color: #22c55e; font-size: 0.7rem; font-weight: bold;">● SYSTEM SECURE</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item"><h4>ACTIVE TRANSITS</h4><p>04</p></div>
+                    <div class="stat-item"><h4>TOTAL SETTLED</h4><p>1,284</p></div>
+                    <div class="stat-item"><h4>NETWORK HEALTH</h4><p style="color: #22c55e;">100%</p></div>
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 20px; font-size: 0.8rem; color: #888;">
+                    <p>Current Message: "Security handshake complete. No transit alerts detected in your region."</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- 4. CORPORATE FOOTER -->
+    <footer>
+        <img src="logo.png" class="footer-logo">
+        <p style="font-size: 0.7rem; letter-spacing: 1px; color: #888;">&copy; 2026 Skyline Global Financial Logistics. HQ: Financial District, NYC.</p>
+    </footer>
+
+
+    <!-- 
+        ========================================
+        9. JAVASCRIPT LOGIC
+        ========================================
+    -->
     <script src="https://www.youtube.com/iframe_api"></script>
-
     <script>
-        let player;
+        // 1. NAVIGATION ROUTER
+        function showPage(pageId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            // Show target view
+            document.getElementById(pageId).classList.add('active');
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-        // This function is triggered by the YouTube API script above
+
+        // 2. WEATHER TICKER GENERATOR (80 Countries)
+        const countries = [
+            {n:"USA", f:"🇺🇸"}, {n:"UK", f:"🇬🇧"}, {n:"Japan", f:"🇯🇵"}, {n:"China", f:"🇨🇳"}, {n:"UAE", f:"🇦🇪"},
+            {n:"Germany", f:"🇩🇪"}, {n:"France", f:"🇫🇷"}, {n:"Switzerland", f:"🇨🇭"}, {n:"Singapore", f:"🇸🇬"}, {n:"Australia", f:"🇦🇺"},
+            {n:"Canada", f:"🇨🇦"}, {n:"Brazil", f:"🇧🇷"}, {n:"South Korea", f:"🇰🇷"}, {n:"Italy", f:"🇮🇹"}, {n:"Spain", f:"🇪🇸"}
+        ];
+
+        function initTicker() {
+            const track = document.getElementById('tickerTrack');
+            // Duplicate array many times to ensure a long infinite scroll
+            const fullList = Array(10).fill(countries).flat();
+            
+            fullList.forEach(c => {
+                const temp = Math.floor(Math.random() * 20) + 12;
+                const item = document.createElement('div');
+                item.className = 'ticker-item';
+                item.innerHTML = `
+                    <span style="font-size:1.8rem; margin-right:15px;">${c.f}</span>
+                    <div style="line-height:1">
+                        <p style="font-size:0.7rem; font-weight:900; letter-spacing:1px">${c.n} NODE</p>
+                        <p style="font-size:0.6rem; color:#c5a059; font-family:'Orbitron'">SECURE HUB / ${temp}°C</p>
+                    </div>
+                `;
+                track.appendChild(item);
+            });
+        }
+
+
+        // 3. YOUTUBE VIDEO SEAMLESS API FIX
+        let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                videoId: '2KxCjRr-wlM', // <--- YOUR VIDEO LINK ID IS HERE
-                playerVars: {
-                    'autoplay': 1,
-                    'controls': 0,
-                    'showinfo': 0,
-                    'modestbranding': 1,
-                    'loop': 1,
-                    'mute': 1,
-                    'playlist': '2KxCjRr-wlM',
-                    'iv_load_policy': 3,
-                    'rel': 0
+                videoId: '2KxCjRr-wlM',
+                playerVars: { 
+                    'autoplay': 1, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 
+                    'loop': 1, 'mute': 1, 'playlist': '2KxCjRr-wlM', 'iv_load_policy': 3, 'rel': 0 
                 },
                 events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
+                    'onReady': (e) => { e.target.mute(); e.target.playVideo(); },
+                    'onStateChange': (e) => {
+                        // Loop the video 1 second early to prevent the black flash
+                        if (e.data == YT.PlayerState.PLAYING) {
+                            setInterval(() => {
+                                if (player.getCurrentTime() > (player.getDuration() - 1)) {
+                                    player.seekTo(0);
+                                }
+                            }, 500);
+                        }
+                    }
                 }
             });
         }
 
-        function onPlayerReady(event) {
-            event.target.playVideo();
+
+        // 4. ACTION HANDLERS
+        function handleVerify() {
+            alert("Establishing Secure Satellite Link... Request Authorized.");
+            showPage('login');
         }
 
-        // SEAMLESS LOOP: Detects when the video is almost over and jumps to start
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING) {
-                let duration = player.getDuration();
-                // We check every 500ms if we are 1 second away from the end
-                setInterval(function() {
-                    let currentTime = player.getCurrentTime();
-                    if (currentTime > (duration - 1)) {
-                        player.seekTo(0); // Jump to start before the black screen appears
-                    }
-                }, 500);
-            }
-            if (event.data == YT.PlayerState.ENDED) {
-                player.playVideo();
-            }
-        }
 
-        function checkStatus() {
-            const val = document.getElementById('manifestID').value;
-            if (val === "") {
-                alert("Please enter a Tracking ID.");
-            } else {
-                alert("Searching Skyline Database for: " + val);
-            }
-        }
+        // INITIALIZE ON LOAD
+        window.onload = initTicker;
     </script>
-
 </body>
 </html>
