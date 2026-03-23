@@ -9,12 +9,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        :root {
-            --navy: #0a1523; --gold: #c5a059; --cyan: #0ea5e9; --white: #ffffff;
-            --border: rgba(255, 255, 255, 0.1); --glass: rgba(255, 255, 255, 0.08);
-            --ticker-speed: 85s;
-        }
+       :root {
+    --navy: #0a1523;
+    --gold: #c5a059;
+    --cyan: #0ea5e9;
+    /* REDUCED HEIGHTS */
+    --ticker-h: 30px;  /* Very slim ticker */
+    --nav-h: 60px;     /* Professional slim nav */
+    --total-h: 90px;   /* Total space header takes */
+}
 
+/* 1. SLIM BROADCAST TICKER */
+.ops-ticker { 
+    position: fixed; top: 0; width: 100%; height: var(--ticker-h); 
+    background: #000; border-bottom: 1px solid rgba(197, 160, 89, 0.3); z-index: 9999; 
+}
+.ticker-track { display: flex; white-space: nowrap; height: 100%; align-items: center; animation: smoothScroll 90s linear infinite; }
+.ticker-item { display: flex; align-items: center; padding: 0 25px; border-right: 1px solid rgba(255,255,255,0.1); height: 100%; }
+
+/* 2. COMPACT NAVIGATION */
+nav { 
+    position: fixed; 
+    top: var(--ticker-h); /* Starts exactly where ticker ends */
+    width: 100%; height: var(--nav-h); 
+    background: rgba(10, 21, 35, 0.9); backdrop-filter: blur(15px); 
+    z-index: 9000; border-bottom: 1px solid rgba(255,255,255,0.1); 
+}
+.nav-container { display: flex; justify-content: space-between; align-items: center; padding: 0 50px; height: 100%; }
+
+/* BRANDING BLOCK */
+.brand-block { display: flex; align-items: center; gap: 10px; cursor: pointer; pointer-events: auto; }
+.brand-block img { 
+    height: 35px; /* Smaller Logo */
+    mix-blend-mode: screen; /* REMOVES WHITE BACKGROUND */
+    filter: brightness(1.2); 
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+.brand-text span:first-child { font-weight: 900; font-size: 0.9rem; color: #fff; letter-spacing: 1px; }
+.brand-text span:last-child { font-weight: 700; font-size: 0.6rem; color: var(--cyan); letter-spacing: 1.5px; }
+
+/* NAV LINKS */
+.nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+.nav-links li { cursor: pointer; font-weight: 700; font-size: 0.65rem; letter-spacing: 1px; color: #fff; transition: 0.2s; }
+.nav-links li:hover { color: var(--gold); }
+.nav-cta { border: 1px solid var(--gold); padding: 5px 12px; border-radius: 2px; color: var(--gold) !important; }
+
+/* 3. CONTENT ADJUSTMENT */
+.view { display: none; min-height: 100vh; padding-top: var(--total-h); }
+.view.active { display: block; }
+.hero { position: relative; height: 100vh; margin-top: calc(var(--total-h) * -1); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    :root { --nav-h: 55px; }
+    .nav-links { display: none; }
+    .nav-container { justify-content: center; }
+    .brand-block img { height: 30px; }
+    .brand-text span:first-child { font-size: 0.8rem; }
+    .brand-text span:last-child { font-size: 0.5rem; }
+}
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         body, html { background-color: var(--navy); color: var(--white); overflow-x: hidden; width: 100%; height: 100%; }
 
